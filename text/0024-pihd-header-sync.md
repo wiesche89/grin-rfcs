@@ -1,9 +1,6 @@
 - Title: pihd-header-sync
 - Authors: wiesche89
 - Start date: June 29, 2026
-- RFC PR:
-- Tracking issue:
-
 ---
 
 ## Summary
@@ -127,8 +124,9 @@ A node should only serve header segments to peers that advertised the PIHD
 capability. On a request, the serving node checks that the requested segment
 height matches the fixed PIHD height. It then returns the deterministic header
 range for the requested index. Here, deterministic is relative to the serving
-peer's current header chain. A peer on another fork may return a
-different header range for the same segment identifier.
+peer's current header chain. A peer on another fork may return different
+headers for the same segment identifier, because the identifier commits only to
+a height range and not to a chain anchor.
 
 Malformed or unsupported requests should be ignored. Serving nodes also limit
 header segment requests per peer to avoid request spam.
@@ -207,10 +205,6 @@ available or does not make progress.
 
 PIHD follows the segmentation model introduced by PIBD in RFC 0020, but applies
 it to block headers.
-
-Bitcoin Core also downloads headers before blocks, and downloads blocks in
-parallel after the header chain is known. PIHD exposes deterministic header
-segments as a p2p primitive instead.
 
 ## Unresolved questions
 [unresolved-questions]: #unresolved-questions
